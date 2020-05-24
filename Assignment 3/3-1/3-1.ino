@@ -1,5 +1,6 @@
+long lasttime = 0;
+String state = "ON";
 void setup(){
-    Serial.begin(9600);
     pinMode(13,OUTPUT);
     pinMode(12,OUTPUT);
     pinMode(11,OUTPUT);
@@ -15,12 +16,22 @@ void setup(){
 }
 
 void loop(){
+ long currentTime = millis();
+ if (state == "ON" && currentTime - lasttime >=500)
+    {
+        state = "OFF";
+        lasttime = currentTime;
+    } else if (state == "OFF" && currentTime - lasttime >=500)
+    {
+        state = "ON";
+        lasttime = currentTime;
+    }
+    if (state == "ON"){
      digitalWrite(13,HIGH);
      digitalWrite(12,HIGH);    
      digitalWrite(11,HIGH);
      digitalWrite(10,HIGH);
      digitalWrite(9,HIGH);    
-
      digitalWrite(8,HIGH);
      digitalWrite(7,HIGH);
      digitalWrite(6,HIGH);    
@@ -28,7 +39,8 @@ void loop(){
      digitalWrite(4,HIGH);
      digitalWrite(3,HIGH);    
      digitalWrite(2,HIGH);
-     delay(500);
+    }
+    if (state == "OFF"){
      digitalWrite(13,LOW);
      digitalWrite(12,LOW);    
      digitalWrite(11,LOW);
@@ -41,5 +53,5 @@ void loop(){
      digitalWrite(4,LOW);
      digitalWrite(3,LOW);    
      digitalWrite(2,LOW);
-     delay(500);
-}
+    }
+    } 

@@ -1,3 +1,5 @@
+ long lasttime = 0;
+String state = "ON";
  void setup()
 {
   pinMode(2,INPUT_PULLUP); 
@@ -19,8 +21,18 @@
 int x = 1;
 void loop()
 {
-  if(digitalRead(2) == 1) 
-
+    long currentTime = millis();
+ if (state == "ON" && currentTime - lasttime >=500)
+    {
+        state = "OFF";
+        lasttime = currentTime;
+    } else if (state == "OFF" && currentTime - lasttime >=500)
+    {
+        state = "ON";
+        lasttime = currentTime;
+    }
+     else if (state == "OFF"){
+     if(digitalRead(2) == 1) 
     { 
      digitalWrite(3,0);
      digitalWrite(4,0);
@@ -33,6 +45,9 @@ void loop()
      digitalWrite(11,0);
      digitalWrite(12,0);
      digitalWrite(13,0);
+    }
+    }
+    else if (state == "ON"){
       if(digitalRead(2) == 0) 
     {
       digitalWrite(3,1);
@@ -46,13 +61,12 @@ void loop()
       digitalWrite(11,1);
       digitalWrite(12,1);
       digitalWrite(13,1);
+      }
+      }
     
       Serial.println(x);
       x++;
 
     }
 
-  
-    }
-}
     
